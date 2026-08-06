@@ -26,6 +26,12 @@ const Home = () => {
   const getProduct = async () => {
     try {
       const response = await fetch("http://localhost:3000/get-products");
+      console.log(response);
+
+      if (!response.ok) {
+        setProducts([]);
+        return;
+      }
 
       const data = await response.json();
       setProducts(data);

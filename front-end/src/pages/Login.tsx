@@ -57,7 +57,7 @@ const Login = () => {
         navigate("/");
         setUser(data);
       }
-    } catch (errror) {
+    } catch (error) {
       console.log(error);
       return;
     }
