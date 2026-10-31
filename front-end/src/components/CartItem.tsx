@@ -12,6 +12,48 @@ type CartItemType = {
 };
 
 const CartItem = ({ title, price, img, id, quantity }: CartItemType) => {
+  const { getCartItems } = useContext(CartItemContext);
+
+  const handleIncrease = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/create-cart-item", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ productId: id }),
+      });
+
+      if (!response.ok) {
+        console.log("Erro ao aumentar quantidade");
+        return;
+      }
+
+      await getCartItems();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDecrease = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/decrease-cart-item", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ productId: id }),
+      });
+
+      if (!response.ok) {
+        console.log("Erro ao diminuir quantidade");
+        return;
+      }
+
+      await getCartItems();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="flex items-center gap-3">
       <img src={`./${img}`} alt="" className="w-[100px] rounded-md" />
@@ -25,11 +67,13 @@ const CartItem = ({ title, price, img, id, quantity }: CartItemType) => {
           <ChevronLeft
             className="cursor-pointer rounded-md bg-[#C92A0E] p-1 text-white"
             size={25}
+            onClick={handleDecrease}
           />
           <p className="text-sm font-bold">{quantity}</p>
           <ChevronLeft
             className="rotate-180 cursor-pointer rounded-md bg-[#C92A0E] p-1 text-white"
             size={25}
+            onClick={handleIncrease}
           />
         </div>
       </div>

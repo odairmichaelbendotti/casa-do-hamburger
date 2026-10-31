@@ -5,6 +5,7 @@ import { deleteProduct, getProducts } from "./controller/product-controller.js";
 import {
   getCartItems,
   createCartItem,
+  decreaseCartItem,
 } from "./controller/cartItem-controller.js";
 import { createOrder } from "./controller/order-controller.js";
 
@@ -23,6 +24,7 @@ router.delete("/delete-product/:id", authMiddleware, deleteProduct);
 // Cart
 router.get("/get-cart-items", authMiddleware, getCartItems);
 router.post("/create-cart-item", authMiddleware, createCartItem);
+router.post("/decrease-cart-item", authMiddleware, decreaseCartItem);
 
 // Orders
 router.post("/create-order", authMiddleware, createOrder);

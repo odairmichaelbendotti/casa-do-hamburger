@@ -55,3 +55,40 @@ export async function createCartItem(req: Request, res: Response) {
     return;
   }
 }
+
+export async function decreaseCartItem(req: Request, res: Response) {
+  try {
+    const { user } = req;
+    const { productId } = req.body;
+
+    if (!productId) {
+      res.status(400).json({ message: "productId é obrigatório" });
+      return;
+    }
+
+    const existingItem = await prisma.cartItem.findFirst({
+      where: { productId, userId: user.userId },
+    });
+
+    if (!existingItem) {
+      res.status(404).json({ message: "Item não encontrado no carrinho" });
+      return;
+    }
+
+    if (existingItem?.quantity <= 1) {
+      await prisma.cartItem.delete({ where: { id: existingItem?.id } });
+      res.status(200).json({ message: "Item removido com sucesso" });
+      return;
+    }
+
+    const cartItem = await prisma.cartItem.update({
+      where: { id: existingItem.id },
+      data: { quantity: { decrement: 1 } },
+    });
+
+    res.json(cartItem);
+  } catch (error) {
+    res.status(500).json({ message: "Erro ao diminuir item do carrinho" });
+    return;
+  }
+}

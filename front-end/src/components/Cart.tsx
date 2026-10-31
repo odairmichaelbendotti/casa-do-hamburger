@@ -13,26 +13,53 @@ const Cart = ({ setShowCart, showCart }: CartTypeProps) => {
   // const [cartItems, setCartItems] = useState<CartItemType[]>([]);
   const { cartItems, setCartItems } = useContext(CartItemContext);
 
-  const getCartItems = async () => {
+  async function handleCreateOrder() {
     try {
-      const response = await fetch("http://localhost:3000/get-cart-items", {
+      const response = await fetch("http://localhost:3000/create-order", {
+        method: "POST",
         credentials: "include",
       });
 
-      if (!response.ok) {
-        console.log("Erro ao realizar a requisição");
+      if (cartItems.length === 0) {
+        console.log("Carrinho vazio");
         return;
       }
 
-      const data = await response.json();
-      setCartItems(data);
-    } catch (error) {
-      console.log(error);
+      if (!response.ok) {
+        console.log("Erro ao finalizar pedido");
+        return;
+      }
+
+      setCartItems([]);
+      setShowCart(false);
+      console.log("Pedido realizado com sucesso");
+    } catch (err) {
+      console.log(err);
       return;
     }
-  };
+  }
 
   useEffect(() => {
+    // Função definida dentro do effect para não ser dependência externa
+    const getCartItems = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/get-cart-items", {
+          credentials: "include",
+        });
+
+        if (!response.ok) {
+          console.log("Erro ao realizar a requisição");
+          return;
+        }
+
+        const data = await response.json();
+        setCartItems(data);
+      } catch (error) {
+        console.log(error);
+        return;
+      }
+    };
+
     getCartItems();
   }, []);
 
@@ -55,7 +82,7 @@ const Cart = ({ setShowCart, showCart }: CartTypeProps) => {
         ))}
       </div>
 
-      <Button title="Finalizar pedido" />
+      <Button title="Finalizar pedido" onClick={handleCreateOrder} />
     </div>
   );
 };
