@@ -11,11 +11,10 @@ const Product = ({
   description,
   price,
   img,
-  category,
   setProducts,
 }: ProductProps) => {
   const { user } = useContext(UserContext);
-  const { cartItems, setCartItems } = useContext(CartItemContext);
+  const { getCartItems } = useContext(CartItemContext);
 
   const handleDeleteProduct = async (id: string) => {
     try {
@@ -58,25 +57,23 @@ const Product = ({
       return;
     }
   };
+  //   try {
+  //     const response = await fetch("http://localhost:3000/get-cart-items", {
+  //       credentials: "include",
+  //     });
 
-  const getCartItems = async () => {
-    try {
-      const response = await fetch("http://localhost:3000/get-cart-items", {
-        credentials: "include",
-      });
+  //     if (!response.ok) {
+  //       console.log("Erro ao realizar a requisição");
+  //       return;
+  //     }
 
-      if (!response.ok) {
-        console.log("Erro ao realizar a requisição");
-        return;
-      }
-
-      const data = await response.json();
-      setCartItems(data);
-    } catch (error) {
-      console.log(error);
-      return;
-    }
-  };
+  //     const data = await response.json();
+  //     setCartItems(data);
+  //   } catch (error) {
+  //     console.log(error);
+  //     return;
+  //   }
+  // };
 
   const newCartItem = async () => {
     try {

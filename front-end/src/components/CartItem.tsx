@@ -54,6 +54,26 @@ const CartItem = ({ title, price, img, id, quantity }: CartItemType) => {
     }
   };
 
+  const handleRemove = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/delete-cart-item/${id}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        },
+      );
+
+      if (!response.ok) {
+        console.log("Erro ao remover o item do carrinho");
+        return;
+      }
+      await getCartItems();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="flex items-center gap-3">
       <img src={`./${img}`} alt="" className="w-[100px] rounded-md" />
@@ -78,7 +98,7 @@ const CartItem = ({ title, price, img, id, quantity }: CartItemType) => {
         </div>
       </div>
 
-      <Trash size={18} className="cursor-pointer" onClick={() => alert(id)} />
+      <Trash size={18} className="cursor-pointer" onClick={handleRemove} />
     </div>
   );
 };

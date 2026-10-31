@@ -11,7 +11,7 @@ type CartTypeProps = {
 
 const Cart = ({ setShowCart, showCart }: CartTypeProps) => {
   // const [cartItems, setCartItems] = useState<CartItemType[]>([]);
-  const { cartItems, setCartItems } = useContext(CartItemContext);
+  const { cartItems, setCartItems, getCartItems } = useContext(CartItemContext);
 
   async function handleCreateOrder() {
     try {
@@ -40,26 +40,6 @@ const Cart = ({ setShowCart, showCart }: CartTypeProps) => {
   }
 
   useEffect(() => {
-    // Função definida dentro do effect para não ser dependência externa
-    const getCartItems = async () => {
-      try {
-        const response = await fetch("http://localhost:3000/get-cart-items", {
-          credentials: "include",
-        });
-
-        if (!response.ok) {
-          console.log("Erro ao realizar a requisição");
-          return;
-        }
-
-        const data = await response.json();
-        setCartItems(data);
-      } catch (error) {
-        console.log(error);
-        return;
-      }
-    };
-
     getCartItems();
   }, []);
 

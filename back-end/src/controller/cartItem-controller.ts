@@ -92,3 +92,30 @@ export async function decreaseCartItem(req: Request, res: Response) {
     return;
   }
 }
+
+export async function deleteCartItem(req: Request, res: Response) {
+  try {
+    const { user } = req;
+    const { productId } = req.params;
+
+    if (!productId) {
+      res.status(400).json({ message: "productId é obrigatório" });
+      return;
+    }
+
+    const { count } = await prisma.cartItem.deleteMany({
+      where: { productId, userId: user.id },
+    });
+
+    if (count === 0) {
+      res.status(404).json({ message: "Item não encontrado no carrinho" });
+      return;
+    }
+
+    console.log(count);
+    res.status(200).json({ message: "Item removido com sucesso" });
+  } catch (error) {
+    res.status(500).json({ message: "Erro ao remover o item do carrinho" });
+    return;
+  }
+}
