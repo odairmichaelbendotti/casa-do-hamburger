@@ -67,7 +67,7 @@ export async function decreaseCartItem(req: Request, res: Response) {
     }
 
     const existingItem = await prisma.cartItem.findFirst({
-      where: { productId, userId: user.userId },
+      where: { productId, userId: user.id },
     });
 
     if (!existingItem) {

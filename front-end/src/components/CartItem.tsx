@@ -74,6 +74,8 @@ const CartItem = ({ title, price, img, id, quantity }: CartItemType) => {
     }
   };
 
+  console.log({ price, quantity });
+
   return (
     <div className="flex items-center gap-3">
       <img src={`./${img}`} alt="" className="w-[100px] rounded-md" />
@@ -81,7 +83,10 @@ const CartItem = ({ title, price, img, id, quantity }: CartItemType) => {
       <div className="flex-1">
         <p className="text-sm font-bold uppercase">{title}</p>
         <p className="text-sm font-bold text-[#848484]">
-          {formatterPrice(price)}
+          Unitário: {formatterPrice(price)}
+        </p>
+        <p className="text-sm font-bold">
+          Total: {formatterPrice(price * quantity)}
         </p>
         <div className="mt-1 flex items-center gap-4">
           <ChevronLeft

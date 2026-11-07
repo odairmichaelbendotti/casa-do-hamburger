@@ -3,6 +3,7 @@ import Button from "./Button";
 import CartItem from "./CartItem";
 import { useContext, useEffect } from "react";
 import { CartItemContext } from "../contexts/CartItemsContext";
+import { formatterPrice } from "../utils/formatterPrice";
 
 type CartTypeProps = {
   setShowCart: React.Dispatch<React.SetStateAction<boolean>>;
@@ -12,6 +13,10 @@ type CartTypeProps = {
 const Cart = ({ setShowCart, showCart }: CartTypeProps) => {
   // const [cartItems, setCartItems] = useState<CartItemType[]>([]);
   const { cartItems, setCartItems, getCartItems } = useContext(CartItemContext);
+
+  const total = cartItems.reduce((acc, item) => {
+    return acc + item.product.price * item.quantity;
+  }, 0);
 
   async function handleCreateOrder() {
     try {
@@ -62,7 +67,10 @@ const Cart = ({ setShowCart, showCart }: CartTypeProps) => {
         ))}
       </div>
 
-      <Button title="Finalizar pedido" onClick={handleCreateOrder} />
+      <div className="mt-4 border-t border-[#161410]/20 pt-4">
+        <p className="mb-4">Total: {formatterPrice(total)}</p>
+        <Button title="Finalizar pedido" onClick={handleCreateOrder} />
+      </div>
     </div>
   );
 };
