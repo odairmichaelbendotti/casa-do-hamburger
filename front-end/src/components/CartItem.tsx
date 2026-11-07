@@ -81,23 +81,23 @@ const CartItem = ({ title, price, img, id, quantity }: CartItemType) => {
       <img src={`./${img}`} alt="" className="w-[100px] rounded-md" />
 
       <div className="flex-1">
-        <p className="text-sm font-bold uppercase">{title}</p>
-        <p className="text-sm font-bold text-[#848484]">
+        <p className="text-xs leading-4 font-bold uppercase">{title}</p>
+        <p className="text-[11px] leading-3.5 font-bold text-[#848484]">
           Unitário: {formatterPrice(price)}
         </p>
-        <p className="text-sm font-bold">
+        <p className="text-xs leading-3.5 font-bold">
           Total: {formatterPrice(price * quantity)}
         </p>
-        <div className="mt-1 flex items-center gap-4">
+        <div className="mt-1 flex items-center gap-2">
           <ChevronLeft
-            className="cursor-pointer rounded-md bg-[#C92A0E] p-1 text-white"
-            size={25}
+            className="cursor-pointer rounded-md bg-[#C92A0E] p-0.5 text-white"
+            size={18}
             onClick={handleDecrease}
           />
-          <p className="text-sm font-bold">{quantity}</p>
+          <p className="text-xs leading-4 font-bold">{quantity}</p>
           <ChevronLeft
-            className="rotate-180 cursor-pointer rounded-md bg-[#C92A0E] p-1 text-white"
-            size={25}
+            className="rotate-180 cursor-pointer rounded-md bg-[#C92A0E] p-0.5 text-white"
+            size={18}
             onClick={handleIncrease}
           />
         </div>
